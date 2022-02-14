@@ -5,10 +5,10 @@ pipeline {
      // You must set the following environment variables
      // ORGANIZATION_NAME
      // YOUR_DOCKERHUB_USERNAME (it doesn't matter if you don't have one)
-     ECR_URI = "842970055596.dkr.ecr.ap-south-1.amazonaws.com"
-
+     YOUR_DOCKERHUB_USERNAME = "hvny"
+     ORGANIZATION_NAME = "vny-ci-cd-demo"
      SERVICE_NAME = "fleetman-api-gateway"
-     REPOSITORY_TAG="${ECR_URI}/${SERVICE_NAME}:${BUILD_ID}"
+     REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
    }
 
    stages {
@@ -24,9 +24,10 @@ pipeline {
       }
 
       stage('Build and Push Image') {
-         steps {
-           sh 'sudo docker image build -t ${REPOSITORY_TAG} .'
-            sh 'sudo docker push ${REPOSITORY_TAG}'
+         steps {           
+           sh 'docker login -u "hvny" -p "7702305501@Dhub" docker.io'
+           sh 'sudo docker image build -t ${REPOSITORY_TAG} .'          
+           sh 'sudo docker push ${REPOSITORY_TAG}'
          }
       }
 
